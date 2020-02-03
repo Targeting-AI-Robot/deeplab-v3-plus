@@ -2,6 +2,10 @@
 **This repo is not longer maintained. I won't respond to issues but will merge PR**  
 DeepLab is a state-of-art deep learning model for semantic image segmentation.  
 
+### How to predict image
+```
+python predict.py --img imgs/test01.jpg
+```
 Model is based on the original TF frozen graph. It is possible to load pretrained weights into this model. Weights are directly imported from original TF checkpoint.  
 
 Segmentation results of original TF model. __Output Stride = 8__
@@ -72,7 +76,6 @@ labels = np.array(Image.fromarray(labels.astype('uint8')).resize((h, w)))
 plt.imshow(labels)
 plt.waitforbuttonpress()
 ```
-
 ### How to use this model with custom input shape and custom number of classes
 ```python
 from model import Deeplabv3
