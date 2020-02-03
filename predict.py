@@ -1,15 +1,20 @@
 import numpy as np
 from PIL import Image
 from matplotlib import pyplot as plt
-
 from model import Deeplabv3
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--img', type=str, help='Image to process segmentation')
+args = parser.parse_args()
 
 # Generates labels using most basic setup.  Supports various image sizes.  Returns image labels in same format
 # as original image.  Normalization matches MobileNetV2
 
 trained_image_width=512 
 mean_subtraction_value=127.5
-image = np.array(Image.open('imgs/test01.jpg'))
+inputfile = args.img
+image = np.array(Image.open(inputfile))
 
 # resize to max dimension of images from training dataset
 w, h, _ = image.shape
@@ -40,5 +45,7 @@ if pad_y > 0:
 labels = np.array(Image.fromarray(labels.astype('uint8')).resize((h, w)))
 
 plt.imshow(labels)
-plt.savefig('imgs/test01_out.png', format='png')
+outputfile = inputfile.split(".")[0]+"_out.png"
+plt.savefig(outputfile, format='png')
+print("output file save as", outputfile)
 #plt.waitforbuttonpress()
