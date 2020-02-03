@@ -3,6 +3,8 @@ from PIL import Image
 from matplotlib import pyplot as plt
 from model import Deeplabv3
 import argparse
+import scipy.misc
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--img', type=str, help='Image to process segmentation')
@@ -44,8 +46,12 @@ if pad_y > 0:
     labels = labels[:, :-pad_y]
 labels = np.array(Image.fromarray(labels.astype('uint8')).resize((h, w)))
 
-plt.imshow(labels)
+# make output img
+labels[labels!=15] = 0
+labels[labels==15] = 255
+
+#plt.imshow(labels)
 outputfile = inputfile.split(".")[0]+"_out.png"
-plt.savefig(outputfile, format='png')
-print("output file save as", outputfile)
+im = Image.fromarray(labels)
+im.save(outputfile)
 #plt.waitforbuttonpress()
